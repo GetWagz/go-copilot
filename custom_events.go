@@ -2,7 +2,6 @@ package copilot
 
 import (
 	"errors"
-	"fmt"
 )
 
 // below is custom event constant
@@ -30,7 +29,7 @@ func CustomEvent(eventSubtype string, timestamp int64, eventID string, payload C
 		return errors.New("either a user_id or a thing_id must be included in the payload")
 	}
 	if eventID == "" {
-		eventID = fmt.Sprintf("%s-%s-%d", EventTypeCustomEvent, eventSubtype, timestamp)
+		eventID = eventIDHelper(EventTypeCustomEvent, eventSubtype, timestamp)
 	}
 
 	event := Event{

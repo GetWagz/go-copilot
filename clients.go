@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"encoding/json"
 	"errors"
-	"fmt"
 	"net/http"
 	"time"
 )
@@ -34,13 +33,11 @@ func makeCollectAPICall(data eventRequest) (*EventResponse, *EventResponseError,
 		return nil, nil, err
 	}
 	defer response.Body.Close()
-	fmt.Printf("\n-----------------------\n%v\n%v\n", response.StatusCode, err)
 
 	if response.StatusCode != http.StatusOK {
 		// parse the error message and return
 		errorResponse := &EventResponseError{}
 		err = json.NewDecoder(response.Body).Decode(errorResponse)
-		fmt.Printf("\nError response\n%+v\n", errorResponse)
 		return nil, errorResponse, err
 	}
 	// Copilot returns a 200 even if there are invalid events, so we need
@@ -48,6 +45,5 @@ func makeCollectAPICall(data eventRequest) (*EventResponse, *EventResponseError,
 
 	eventResponse := &EventResponse{}
 	err = json.NewDecoder(response.Body).Decode(eventResponse)
-	fmt.Printf("\nEvent response\n%+v\n", eventResponse)
 	return eventResponse, nil, err
 }
