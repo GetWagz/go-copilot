@@ -2,7 +2,6 @@ package copilot
 
 import (
 	"errors"
-	"fmt"
 )
 
 // below are a list of thing events which can be helpful instead of remembering the strings
@@ -21,20 +20,20 @@ const (
 
 // ThingCreatedUpdatedPayload is used to set data for both the ThingCreated and ThingUpdated calls
 type ThingCreatedUpdatedPayload struct {
-	ThingID         *string `json:"thing_id"`
-	UserID          *string `json:"user_id"`
-	FirmwareVersion *string `json:"firmware_version"`
-	Model           *string `json:"model"`
+	ThingID         *string `json:"thing_id,omitempty"`
+	UserID          *string `json:"user_id,omitempty"`
+	FirmwareVersion *string `json:"firmware_version,omitempty"`
+	Model           *string `json:"model,omitempty"`
 }
 
 // ThingStatusChangedPayload tells Copilot that the status of the thing has changed. This can include
 // things like activation status, battery level, connectivity level, or other changes to the thing's state.
 type ThingStatusChangedPayload struct {
-	ThingID     *string `json:"thing_id"`
-	StatusKey   *string `json:"status_key"`
-	StatusValue *string `json:"status_value"`
-	StatusDate  *int64  `json:"status_date"`
-	UserID      *string `json:"user_id"`
+	ThingID     *string `json:"thing_id,omitempty"`
+	StatusKey   *string `json:"status_key,omitempty"`
+	StatusValue *string `json:"status_value,omitempty"`
+	StatusDate  *int64  `json:"status_date,omitempty"`
+	UserID      *string `json:"user_id,omitempty"`
 }
 
 // ThingInteractionEventPayload holds arbitrary key/values sent as part of the Thing Interaction endpoint call.
@@ -54,7 +53,7 @@ func ThingCreated(thingID string, timestamp int64, eventID string, payload *Thin
 	payload.ThingID = &thingID
 
 	if eventID == "" {
-		eventID = fmt.Sprintf("%s-%s-%d", EventTypeThingCreated, thingID, timestamp)
+		eventID = eventIDHelper(EventTypeThingCreated, thingID, timestamp)
 	}
 
 	event := Event{
@@ -80,7 +79,7 @@ func ThingUpdated(thingID string, timestamp int64, eventID string, payload *Thin
 	payload.ThingID = &thingID
 
 	if eventID == "" {
-		eventID = fmt.Sprintf("%s-%s-%d", EventTypeThingUpdated, thingID, timestamp)
+		eventID = eventIDHelper(EventTypeThingUpdated, thingID, timestamp)
 	}
 
 	event := Event{
@@ -105,7 +104,7 @@ func ThingAssociated(thingID string, userID string, timestamp int64, eventID str
 	}
 
 	if eventID == "" {
-		eventID = fmt.Sprintf("%s-%s-%d", EventTypeThingAssociated, thingID, timestamp)
+		eventID = eventIDHelper(EventTypeThingAssociated, thingID, timestamp)
 	}
 
 	event := Event{
@@ -130,7 +129,7 @@ func ThingDisassociated(thingID string, userID string, timestamp int64, eventID 
 	}
 
 	if eventID == "" {
-		eventID = fmt.Sprintf("%s-%s-%d", EventTypeThingDisassociated, thingID, timestamp)
+		eventID = eventIDHelper(EventTypeThingDisassociated, thingID, timestamp)
 	}
 
 	event := Event{
@@ -169,7 +168,7 @@ func ThingStatusChanged(thingID string, timestamp int64, eventID string, payload
 	payload.ThingID = &thingID
 
 	if eventID == "" {
-		eventID = fmt.Sprintf("%s-%s-%d", EventTypeThingStatusChanged, thingID, timestamp)
+		eventID = eventIDHelper(EventTypeThingStatusChanged, thingID, timestamp)
 	}
 
 	event := Event{
@@ -195,7 +194,7 @@ func ThingIneraction(thingID string, timestamp int64, eventID string, payload Th
 	payload["thing_id"] = thingID
 
 	if eventID == "" {
-		eventID = fmt.Sprintf("%s-%s-%d", EventTypeThingInteraction, thingID, timestamp)
+		eventID = eventIDHelper(EventTypeThingInteraction, thingID, timestamp)
 	}
 
 	event := Event{
@@ -222,7 +221,7 @@ func ThingConnected(thingID string, userID string, timestamp int64, eventID stri
 	}
 
 	if eventID == "" {
-		eventID = fmt.Sprintf("%s-%s-%d", EventTypeThingConnected, thingID, timestamp)
+		eventID = eventIDHelper(EventTypeThingConnected, thingID, timestamp)
 	}
 
 	event := Event{
@@ -254,7 +253,7 @@ func ThingConsumableUsage(thingID string, userID string, consumableType string, 
 	}
 
 	if eventID == "" {
-		eventID = fmt.Sprintf("%s-%s-%d", EventTypeThingConsumableUsage, thingID, timestamp)
+		eventID = eventIDHelper(EventTypeThingConsumableUsage, thingID, timestamp)
 	}
 
 	event := Event{
@@ -284,7 +283,7 @@ func ThingFirmwareUpgradeStarted(thingID string, userID string, firmwareVersion 
 	}
 
 	if eventID == "" {
-		eventID = fmt.Sprintf("%s-%s-%d", EventTypeThingFirmwareUpgradeStarted, thingID, timestamp)
+		eventID = eventIDHelper(EventTypeThingFirmwareUpgradeStarted, thingID, timestamp)
 	}
 
 	event := Event{
@@ -314,7 +313,7 @@ func ThingFirmwareUpgradeCompleted(thingID string, userID string, firmwareVersio
 	}
 
 	if eventID == "" {
-		eventID = fmt.Sprintf("%s-%s-%d", EventTypeThingFirmwareUpgradeCompleted, thingID, timestamp)
+		eventID = eventIDHelper(EventTypeThingFirmwareUpgradeCompleted, thingID, timestamp)
 	}
 
 	event := Event{

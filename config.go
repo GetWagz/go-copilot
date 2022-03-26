@@ -64,3 +64,15 @@ func osHelper(key, defaultValue string) string {
 func String(str string) *string {
 	return &str
 }
+
+// Int64 takes an int64 and converts it to a pointer to be used
+// in the parameter passing, most often for timestamps
+func Int64(i int64) *int64 {
+	return &i
+}
+
+// Bool takes a bool and converts it to a pointer to be used
+// in the parameter passing
+func Bool(b bool) *bool {
+	return &b
+}

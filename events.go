@@ -87,3 +87,16 @@ type EventResponseError struct {
 func (err *EventResponseError) Error() string {
 	return fmt.Sprintf("%s-%s", err.Reason, err.ErrorMessage)
 }
+
+func eventIDHelper(eventType, key string, timestamp int64) string {
+	if timestamp == 0 {
+		timestamp = time.Now().UnixMilli()
+	}
+	id := fmt.Sprintf("%s-%s-%d", eventType, key, timestamp)
+
+	// check if we need to trim it
+	if len(id) > 50 {
+		id = id[0:50]
+	}
+	return id
+}

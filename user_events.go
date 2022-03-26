@@ -2,7 +2,6 @@ package copilot
 
 import (
 	"errors"
-	"fmt"
 )
 
 // below are a list of user events which can be helpful instead of remembering the strings
@@ -13,11 +12,11 @@ const (
 
 // UserEventPayload is used to set data for both the UserCreated and UserUpdated calls
 type UserEventPayload struct {
-	UserID    *string `json:"user_id"`
-	FirstName *string `json:"first_name"`
-	LastName  *string `json:"last_name"`
-	Email     *string `json:"email"`
-	UTCOffset *string `json:"utc_offset"`
+	UserID    *string `json:"user_id,omitempty"`
+	FirstName *string `json:"first_name,omitempty"`
+	LastName  *string `json:"last_name,omitempty"`
+	Email     *string `json:"email,omitempty"`
+	UTCOffset *string `json:"utc_offset,omitempty"`
 }
 
 // UserCreated tells copilot a new user was created. The userID is required.
@@ -34,7 +33,7 @@ func UserCreated(userID string, timestamp int64, eventID string, payload *UserEv
 	payload.UserID = &userID
 
 	if eventID == "" {
-		eventID = fmt.Sprintf("%s-%s-%d", EventTypeUserCreated, userID, timestamp)
+		eventID = eventIDHelper(EventTypeUserCreated, userID, timestamp)
 	}
 
 	event := Event{
@@ -60,7 +59,7 @@ func UserUpdated(userID string, timestamp int64, eventID string, payload *UserEv
 	payload.UserID = &userID
 
 	if eventID == "" {
-		eventID = fmt.Sprintf("%s-%s-%d", EventTypeUserUpdated, userID, timestamp)
+		eventID = eventIDHelper(EventTypeUserUpdated, userID, timestamp)
 	}
 
 	event := Event{
