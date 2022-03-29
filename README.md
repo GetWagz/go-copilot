@@ -1,6 +1,6 @@
 # Copilot.cx Go SDK
 
-[![Go Report Card](https://goreportcard.com/badge/github.com/GetWagz/go-copilot)](https://goreportcard.com/report/github.com/GetWagz/go-gopilot)
+[![Go Report Card](https://goreportcard.com/badge/github.com/GetWagz/go-copilot)](https://goreportcard.com/report/github.com/GetWagz/go-copilot)
 
 This library is a wrapper around the Copilot.cx collect API.
 
