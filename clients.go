@@ -78,7 +78,7 @@ func makeConsentCall(userID string, consentValue bool) error {
 	}
 	defer response.Body.Close()
 
-	if response.StatusCode != http.StatusOK {
+	if response.StatusCode != http.StatusOK && response.StatusCode != http.StatusNoContent {
 		// parse the error message and return
 		return fmt.Errorf("recevied a %d", response.StatusCode)
 	}
