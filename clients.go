@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"net/http"
 	"time"
 )
@@ -46,4 +47,41 @@ func makeCollectAPICall(data eventRequest) (*EventResponse, *EventResponseError,
 	eventResponse := &EventResponse{}
 	err = json.NewDecoder(response.Body).Decode(eventResponse)
 	return eventResponse, nil, err
+}
+
+// makeConsentCall makes a call to the consent endpoint, of which there is only one
+// call, so we take a simplified approach to this function as compared to the collection call
+func makeConsentCall(userID string, consentValue bool) error {
+	if config == nil {
+		return errors.New("copilot client not configured")
+	}
+	postBody, err := json.Marshal(map[string]interface{}{
+		"consent_value": consentValue,
+		"user_id":       userID,
+	})
+	if err != nil {
+		return err
+	}
+	httpBody := bytes.NewBuffer(postBody)
+
+	req, err := http.NewRequest(http.MethodPost, config.ConsentEndpoint, httpBody)
+	if err != nil {
+		return err
+	}
+	req.SetBasicAuth(config.ClientID, config.ClientSecret)
+	req.Header.Add("content-type", "application/json")
+
+	// now make the call
+	response, err := httpClient.Do(req)
+	if err != nil {
+		return err
+	}
+	defer response.Body.Close()
+
+	if response.StatusCode != http.StatusOK && response.StatusCode != http.StatusNoContent {
+		// parse the error message and return
+		return fmt.Errorf("recevied a %d", response.StatusCode)
+	}
+
+	return nil
 }
