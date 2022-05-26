@@ -11,6 +11,7 @@ type configStruct struct {
 	ClientID        string
 	ClientSecret    string
 	CollectEndpoint string
+	ConsentEndpoint string
 }
 
 var config *configStruct = nil
@@ -22,12 +23,13 @@ func init() {
 	clientID := osHelper("COPILOT_CLIENT_ID", "")
 	clientSecret := osHelper("COPILOT_CLIENT_SECRET", "")
 	collectEndpoint := osHelper("COPILOT_CLIENT_COLLECT_ENDPOINT", "")
-	Setup(clientID, clientSecret, collectEndpoint)
+	consentEndpoint := osHelper("COPILOT_CLIENT_CONSENT_ENDPOINT", "")
+	Setup(clientID, clientSecret, collectEndpoint, consentEndpoint)
 }
 
 // Setup is called on init from the environment but can also be called explicitly
 // by tests or the client
-func Setup(clientID string, clientSecret string, collectEndpoint string) error {
+func Setup(clientID string, clientSecret string, collectEndpoint, consentEndpoint string) error {
 	// if they are missing, we want to log an error but we shouldn't
 	// nuke the caller through a panic
 	if clientID == "" || clientSecret == "" || collectEndpoint == "" {
@@ -40,6 +42,7 @@ func Setup(clientID string, clientSecret string, collectEndpoint string) error {
 		ClientID:        clientID,
 		ClientSecret:    clientSecret,
 		CollectEndpoint: collectEndpoint,
+		ConsentEndpoint: consentEndpoint,
 	}
 	return nil
 }
