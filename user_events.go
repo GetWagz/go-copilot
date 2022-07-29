@@ -8,6 +8,7 @@ import (
 const (
 	EventTypeUserCreated = "user_created"
 	EventTypeUserUpdated = "user_updated"
+	EventTypeUserDeleted = "user_deleted"
 )
 
 // UserEventPayload is used to set data for both the UserCreated and UserUpdated calls
@@ -65,6 +66,30 @@ func UserUpdated(userID string, timestamp int64, eventID string, payload *UserEv
 	event := Event{
 		EventID:   eventID,
 		Type:      EventTypeUserUpdated,
+		Timestamp: timestamp,
+		Payload:   payload,
+	}
+	return event.sendEvent()
+}
+
+// UserDeleted tells copilot that a user has been deleted
+func UserDeleted(userID string, timestamp int64, eventID string) error {
+	// basic error checking and set some defaults
+	if userID == "" {
+		return errors.New("userID cannot be blank")
+	}
+
+	payload := &UserEventPayload{
+		UserID: &userID,
+	}
+
+	if eventID == "" {
+		eventID = eventIDHelper(EventTypeUserDeleted, userID, timestamp)
+	}
+
+	event := Event{
+		EventID:   eventID,
+		Type:      EventTypeUserDeleted,
 		Timestamp: timestamp,
 		Payload:   payload,
 	}
