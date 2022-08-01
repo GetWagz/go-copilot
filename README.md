@@ -13,10 +13,11 @@ Usage is fairly straight-forward. The `init` function will read from the environ
 * `COPILOT_CLIENT_ID` The client id for your Copilot instance
 * `COPILOT_CLIENT_SECRET` The secret key for your instance
 * `COPILOT_CLIENT_COLLECT_ENDPOINT` The collect endpoint
+* `COPILOT_CLIENT_CONSENT_ENDPOINT` The consent endpoint, needed for GDPR systems
 
 ## Testing
 
-Testing requires an actual account. We can do some initial error checking without credentials, but full testing requires the credentials of an instance to use. Copilot currently does not offer a way to delete users, things, or events, so testing may appear minimal without credentials. This library is used in production.
+Testing requires an actual account. We can do some initial error checking without credentials, but full testing requires the credentials of an instance to use. Copilot currently does not offer a way to completely remove and reset data so testing may appear minimal without credentials. This library is used in production.
 
 ## Other Libraries
 
@@ -25,8 +26,6 @@ We use the following additional tools in this library, and thank the maintainers
 * [testify](https://github.com/stretchr/testify) - Makes our unit tests more readable and management
 
 ## Known Issues
-
-* We currently do not implement the consent API
 
 * Testing needs to be expanded, ideally with an ability to use a testing sandbox or the ability to reset an environment
 
