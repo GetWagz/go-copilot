@@ -6,7 +6,7 @@ import (
 )
 
 const (
-	EventTypeUnsubscribe = "unsibscribe"
+	EventTypeUnsubscribe = "unsubscribe"
 )
 
 // UnsubscribeUserEmail tells Copilot that a user has unsubscribed from email notifications. This should be sent
