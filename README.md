@@ -6,6 +6,10 @@
 
 This library is a wrapper around the Copilot.cx collect API.
 
+## Deprecation and Maintenance
+
+Unfortunately, this repository is no longer being maintained. If you would like to take over maintenance of the repository, please open up an issue in this repository or otherwise contact us. We apologize if this is an inconvenience at all. We are going to freeze this archive. Feel free to fork it as you desire. Best of luck!
+
 ## Usage
 
 Usage is fairly straight-forward. The `init` function will read from the environment to try to configure the client. However, in some cases you may want to initialize the client programatically, so you may also call the `Setup` function directly.
@@ -33,7 +37,7 @@ We use the following additional tools in this library, and thank the maintainers
 
 ## Hiring
 
-Are you interested in working on improving pet lives through innovative technologies and love Go, Typescript, Swift, or Java? Send an email to engineering@wagz.com and let's find out if we're a good match!
+Are you interested in working on improving pet lives through innovative technologies and love Go, Typescript, Swift, or Java? Send an email to [engineering@wagz.com](engineering@wagz.com)and let's find out if we're a good match!
 
 ## Contributing
 
